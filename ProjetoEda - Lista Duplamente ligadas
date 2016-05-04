@@ -1,0 +1,191 @@
+//Lista Dupla
+
+package ed.listaligada;
+
+public class ListaDupla {
+	
+	private Celula primeira = null;
+	private Celula ultima;
+	private int tamanho = 0;	
+		
+	
+	public void addFirst(Object elemento){
+		Celula nova = new Celula(elemento, primeira);
+		this.primeira = nova;
+		
+		if(this.tamanho == 0){
+			this.ultima = this.primeira;
+		}
+		
+		this.tamanho ++;
+		
+	}
+	
+	public void addFinal(Object elemento){
+		if(this.tamanho == 0){
+			addFirst(elemento);
+		}else{
+			Celula nova = new Celula(elemento, null);
+			this.ultima.setProximo(nova);
+			this.ultima = nova;
+			this.tamanho++;
+		}
+		
+	}
+	private boolean posicaoOcupada(int posicao){
+		return posicao > 0 && posicao < tamanho;
+	} 
+	
+	private Celula pegaCelula(int posicao){
+		if(!posicaoOcupada(posicao)){
+			throw new IllegalArgumentException("Posicão Inválida");
+		}
+			Celula atual = primeira;
+			
+			for(int i= 0;i < posicao; i++){
+				atual = atual.getProximo();
+			}
+			
+			return atual;
+		}
+	
+	public void addMeio(int posicao, Object elemento){
+		if(posicao == 0){
+			addFirst(elemento);
+		}else if(posicao == tamanho){
+			addFinal(elemento);
+		}else{
+			Celula anterior = this.pegaCelula(posicao - 1);
+			Celula nova = new Celula(elemento, anterior.getProximo());
+			anterior.setProximo(nova);
+			this.tamanho++;	
+		}
+	}
+	
+	public void removeDoComeço(){
+		
+		if(this.tamanho == 0){
+			throw new IllegalArgumentException("Lista Vazia");
+		}
+		
+		this.primeira = this.primeira.getProximo();
+		this.tamanho--;
+		
+		if(this.tamanho == 0){
+			this.ultima = null;
+		}
+		
+	}
+	
+	public void removeDoFim(){
+		if(this.tamanho == 1){
+			this.removeDoComeço();
+		}else{
+			Celula penultima = this.ultima.getAnterior();
+			penultima.setProximo(null);
+			this.ultima = penultima;
+			this.tamanho--;
+		}
+	}
+	
+	public void removeDoMeio(int posicao){
+		if(posicao == 0){
+			removeDoComeço();
+		}else if(posicao == this.tamanho - 1){
+			this.removeDoFim();
+		}else{
+			Celula anterior = this.pegaCelula(posicao - 1);
+			Celula atual = anterior.getProximo();
+			Celula proxima = atual.getProximo();
+			
+			anterior.setProximo(proxima);
+			proxima.setAnterior(anterior);
+			
+			this.tamanho--;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		if(this.tamanho == 0){
+			System.out.println("[ Lista Vazia ]");
+		}else{
+			System.out.println("[ Lista ]");
+		}
+			
+		Celula atual = primeira;
+		
+		StringBuilder builder = new StringBuilder("[");
+		for(int i = 0; i< tamanho; i++){
+			builder.append(atual.getElemento());
+			builder.append(".");
+			atual = atual.getProximo();
+		}
+		
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	public void menu(){
+		System.out.println("MENU");
+		System.out.println("1 - Inserir um numero no inicio da lista: ");
+		System.out.println("2 - Inserir um numero no final da lista: ");
+		System.out.println("3 - Inserir um numero em uma posicao informada: ");
+		System.out.println("4 - Excluir um numero informado ");
+		System.out.println("5 - Menu consultas ");
+
+		
+	}	
+	
+	
+	
+
+}
+
+
+//Celula
+
+package ed.listaligada;
+
+public class Celula {
+	
+	private Object elemento;
+	private Celula proximo;
+	private Celula anterior;
+	
+
+	public Celula(Object elemento, Celula proximo) {
+		
+		this.elemento = elemento;
+		this.proximo = proximo;
+	}
+
+	public Object getElemento() {
+		return elemento;
+	}
+
+	public Celula getProximo() {
+		return proximo;
+	}
+
+	public void setProximo(Celula proximo) {
+		this.proximo = proximo;
+	}
+
+	public Celula getAnterior() {
+		return anterior;
+	}
+
+	public void setAnterior(Celula anterior) {
+		this.anterior = anterior;
+	}
+	
+}
+
+
+
