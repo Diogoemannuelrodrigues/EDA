@@ -188,4 +188,33 @@ public class Celula {
 }
 
 
+\\TestaListaDupla
+
+
+import java.awt.Menu;
+import java.util.Scanner;
+
+public class TestaListaDupla {
+	
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		ListaDupla listas = new ListaDupla();
+		
+		int op;
+		do{
+			menu();
+			
+		}while(op!0);
+		
+		
+		
+	}
+
+	private static void menu() {
+		
+		
+	}
+
+}
+
 
